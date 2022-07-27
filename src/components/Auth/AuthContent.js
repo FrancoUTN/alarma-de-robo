@@ -5,66 +5,68 @@ import { useNavigation } from '@react-navigation/native';
 import FlatButton from '../ui/FlatButton';
 import AuthForm from './AuthForm';
 import { Colors } from '../../constants/styles';
+import Button from '../ui/Button';
 
 function AuthContent({ isLogin, onAuthenticate }) {
   const navigation = useNavigation();
 
   const [credentialsInvalid, setCredentialsInvalid] = useState({
     email: false,
-    password: false,
-    confirmEmail: false,
-    confirmPassword: false,
+    password: false
   });
 
-  function switchAuthModeHandler() {
-    if (isLogin) {
-      navigation.replace('Signup');
-    } else {
-      navigation.replace('Login');
-    }
-  }
-
   function submitHandler(credentials) {
-    let { email, confirmEmail, password, confirmPassword } = credentials;
+    let { email, password } = credentials;
 
     email = email.trim();
     password = password.trim();
 
     const emailIsValid = email.includes('@');
-    const passwordIsValid = password.length > 6;
-    const emailsAreEqual = email === confirmEmail;
-    const passwordsAreEqual = password === confirmPassword;
+    const passwordIsValid = password.length >= 6;
 
-    if (
-      !emailIsValid ||
-      !passwordIsValid ||
-      (!isLogin && (!emailsAreEqual || !passwordsAreEqual))
-    ) {
+    if ( !emailIsValid || !passwordIsValid ) {
       Alert.alert('Invalid input', 'Please check your entered credentials.');
+      
       setCredentialsInvalid({
         email: !emailIsValid,
         confirmEmail: !emailIsValid || !emailsAreEqual,
         password: !passwordIsValid,
         confirmPassword: !passwordIsValid || !passwordsAreEqual,
       });
+
       return;
     }
+
     onAuthenticate({ email, password });
   }
 
+  function accesoAdminHandler() {
+
+  }
+
+  function accesoInvitadoHandler() {
+
+  }
+
   return (
-    <View style={styles.authContent}>
-      <AuthForm
-        isLogin={isLogin}
-        onSubmit={submitHandler}
-        credentialsInvalid={credentialsInvalid}
-      />
-      <View style={styles.buttons}>
-        <FlatButton onPress={switchAuthModeHandler}>
-          {isLogin ? 'Create a new user' : 'Log in instead'}
-        </FlatButton>
+    <>
+      <View style={styles.authContent}>
+        <AuthForm
+          isLogin={isLogin}
+          onSubmit={submitHandler}
+          credentialsInvalid={credentialsInvalid}
+        />
       </View>
-    </View>
+      
+      {/* <View style={styles.authContent}>
+        <FlatButton onPress={accesoAdminHandler}>
+          Acceso admin
+        </FlatButton>
+        <FlatButton onPress={accesoInvitadoHandler} >
+          Acceso invitado
+        </FlatButton>
+      </View> */}
+    </>
   );
 }
 
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 32,
     padding: 16,
     borderRadius: 8,
-    backgroundColor: Colors.primary800,
+    backgroundColor: Colors.primary500,
     elevation: 2,
     shadowColor: 'black',
     shadowOffset: { width: 1, height: 1 },
