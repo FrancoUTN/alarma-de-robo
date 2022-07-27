@@ -15,7 +15,7 @@ export default function App() {
   };
 
   const _fast = () => {
-    Gyroscope.setUpdateInterval(16);
+    Gyroscope.setUpdateInterval(200);
   };
 
   const _subscribe = () => {
@@ -41,7 +41,13 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.text}>Gyroscope:</Text>
       <Text style={styles.text}>
-        x: {round(x)} y: {round(y)} z: {round(z)}
+        x: {round(x)}
+      </Text>
+      <Text style={styles.text}>
+        y: {round(y)}
+      </Text>
+      <Text style={styles.text}>
+        z: {round(z)}
       </Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={subscription ? _unsubscribe : _subscribe} style={styles.button}>
@@ -62,7 +68,7 @@ function round(n) {
   if (!n) {
     return 0;
   }
-  return Math.floor(n * 100) / 100;
+  return Math.floor((n * 100) / 100);
 }
 
 const styles = StyleSheet.create({
