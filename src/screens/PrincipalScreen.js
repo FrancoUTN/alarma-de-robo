@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Gyroscope } from 'expo-sensors';
+import { Audio } from 'expo-av';
 
 import { Colors } from '../constants/styles';
 
 
 export default function Principal() {
   const [activada, setActivada] = useState(true);
-  const [iterar, setIterar] = useState(true);
   
   function onPressHandler() {
     setActivada(
@@ -23,8 +23,19 @@ export default function Principal() {
   });
   const [subscripcion, setSubscripcion] = useState(null);
 
-  const _slow = () => {
+  const _slow = async () => {
     Gyroscope.setUpdateInterval(2000);
+
+    console.log("Entré");
+    
+    const sound = new Audio.Sound();
+    await sound.loadAsync(require('../../assets/elephant.mp3'));
+    
+		// const { sound } = await Audio.Sound.createAsync(
+		// 	require('../../assets/elephant.mp3')
+		// );
+    await sound.playAsync();
+    // await sound.unloadAsync();
   };
 
   const _fast = () => {
@@ -47,47 +58,53 @@ export default function Principal() {
   };
 
   useEffect(() => {
-    const x = Math.abs(data.x);
-    const y = Math.abs(data.y);
+    (
+      async () => {
+        const x = Math.abs(data.x);
+        const y = Math.abs(data.y);
 
-    if (x > 1) {
-      console.log("Lo pusiste en vertical. Valor de x: " + data.x);
-      _unsubscribe();
-
-
-      // let iterar = true;
-
-      setTimeout(
-        () => {
-          // iterar = false;
-          console.log('setIterar(false)')
-          setIterar(false);
-        }, 4000
-      );
-
-      // while(iterar) {
-      //   console.log('Interando')
-      // }
-
-      funcionFalopa();
+        if (x > 1) {
+          console.log("Lo pusiste en vertical. Valor de x: " + data.x);
+          _unsubscribe();
 
 
+          let iterar = true;
 
-    }
-    else if (y > 1) {
-      console.log("Lo pusiste en horizontal. Valor de y: " + data.y);
-      _unsubscribe();
-    }
-    else if (data.z > 1) {
-      console.log("Lo giraste hacia la izquierda. Valor de <: " + data.z);
-      _unsubscribe();
-    }
-    else if (data.z < -1) {
-      console.log("Lo giraste hacia la derecha. Valor de <: " + data.z);
-      _unsubscribe();
-    }
+          setTimeout(
+            () => {
+              iterar = false;
+              console.log('setIterar(false)')
+            }, 4000
+          );
+
+          // const sound = new Audio.Sound();
+          // await sound.loadAsync(require('../../assets/1.mp3'));
+
+          while(iterar) {
+            console.log('Iterando...');
+            // await sound.playAsync();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          }
+          // await sound.playAsync();
+
+          // await sound.unloadAsync();
 
 
+        }
+        else if (y > 1) {
+          console.log("Lo pusiste en horizontal. Valor de y: " + data.y);
+          _unsubscribe();
+        }
+        else if (data.z > 1) {
+          console.log("Lo giraste hacia la izquierda. Valor de <: " + data.z);
+          _unsubscribe();
+        }
+        else if (data.z < -1) {
+          console.log("Lo giraste hacia la derecha. Valor de <: " + data.z);
+          _unsubscribe();
+        }
+      }
+    )();
   }, [data]);
 
   useEffect(() => {
