@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { FloatingAction } from "react-native-floating-action";
 
 import AuthForm from './AuthForm';
 import { Colors } from '../../constants/styles';
@@ -39,6 +40,44 @@ function AuthContent({ isLogin, onAuthenticate }) {
     onAuthenticate({ email, password });
   }
 
+  const acciones = [
+    {
+      text: "Administrador",
+      name: "admin",
+      icon: require("../../../assets/arrow.png"),
+      color: Colors.secondary300,
+      textColor: Colors.primary500
+    },
+    {
+      text: "Invitado",
+      name: "invitado",
+      icon: require("../../../assets/arrow.png"),
+      color: Colors.secondary300,
+      textColor: Colors.primary500
+    },
+    {
+      text: "Usuario",
+      name: "usuario",
+      icon: require("../../../assets/arrow.png"),
+      color: Colors.secondary300,
+      textColor: Colors.primary500
+    },
+    {
+      text: "Anónimo",
+      name: "anonimo",
+      icon: require("../../../assets/arrow.png"),
+      color: Colors.secondary300,
+      textColor: Colors.primary500
+    },
+    {
+      text: "Tester",
+      name: "tester",
+      icon: require("../../../assets/arrow.png"),
+      color: Colors.secondary300,
+      textColor: Colors.primary500
+    },
+  ];
+
   return (
     <>
       <View style={styles.authContent}>
@@ -47,6 +86,16 @@ function AuthContent({ isLogin, onAuthenticate }) {
           onSubmit={submitHandler}
           credentialsInvalid={credentialsInvalid}
         />
+      </View>
+      <View style={styles.accesosContainer}>
+        <Text style={styles.accesosTexto}>
+          Acceso rápido:
+        </Text>
+          <FloatingAction
+            actions={acciones}
+            color={Colors.primary800}
+				    distanceToEdge={{vertical:20,horizontal:20}}
+          />
       </View>
     </>
   );
@@ -59,7 +108,7 @@ const styles = StyleSheet.create({
     marginTop: 64,
     marginHorizontal: 32,
     padding: 16,
-    borderRadius: 8,
+    borderRadius: 4,
     backgroundColor: Colors.primary500,
     elevation: 2,
     shadowColor: 'black',
@@ -70,4 +119,20 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: 8,
   },
+  accesosContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: Colors.primary500,
+    marginTop: 150,
+    marginBottom: 30,
+    marginHorizontal: 32,
+    padding: 30,
+    height: 96,
+    borderRadius: 4,
+  },
+  accesosTexto: {
+    fontSize: 20,
+    color: 'white'
+  }
 });

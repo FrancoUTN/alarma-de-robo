@@ -26,7 +26,7 @@ export default function AnimatedSplashScreen({ children, image }) {
     useEffect(() => {
       if (isAppReady) {
         Animated.timing(animation, {
-          toValue: 1000,
+          toValue: -5000,
           duration: 1200,
           useNativeDriver: true,
         }).start(() => setAnimationComplete(true));
@@ -53,7 +53,7 @@ export default function AnimatedSplashScreen({ children, image }) {
                 resizeMode: Constants.manifest.splash.resizeMode || "contain",
                 transform: [
                   {
-                    translateX: animation,
+                    translateY: animation,
                   },
                 ],
               }}

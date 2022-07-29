@@ -80,7 +80,7 @@ function AuthForm({ onSubmit, credentialsInvalid }) {
           </Button>
         </View>
 
-        <View style={styles.buttons}>
+        {/* <View style={styles.buttons}>
           <FlatButton onPress={accesoAdminHandler}>
             Acceso admin
           </FlatButton>
@@ -104,7 +104,7 @@ function AuthForm({ onSubmit, credentialsInvalid }) {
           <FlatButton onPress={accesoTesterHandler} >
             Acceso tester
           </FlatButton>
-        </View>
+        </View> */}
 
       </View>
     </View>
