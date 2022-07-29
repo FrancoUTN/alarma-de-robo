@@ -20,7 +20,7 @@ export default function Principal() {
     y: 0,
     z: 0,
   });
-  const [subscription, setSubscription] = useState(null);
+  const [subscripcion, setSubscripcion] = useState(null);
 
   const _slow = () => {
     Gyroscope.setUpdateInterval(2000);
@@ -31,19 +31,18 @@ export default function Principal() {
   };
 
   const _subscribe = () => {
-    Gyroscope.setUpdateInterval(500);
-    setSubscription(
+    Gyroscope.setUpdateInterval(200);
+
+    setSubscripcion(
       Gyroscope.addListener(gyroscopeData => {
-
-
         setData(gyroscopeData);
       })
     );
   };
 
   const _unsubscribe = () => {
-    subscription && subscription.remove();
-    setSubscription(null);
+    subscripcion && subscripcion.remove();
+    setSubscripcion(null);
   };
 
   useEffect(() => {
@@ -52,6 +51,7 @@ export default function Principal() {
     if (valorAbsoluto > 5) {
       // console.log("X superó " + valorAbsoluto + "con: " + data.x);
       console.log("X superó 5 con: " + data.x);
+      _unsubscribe();
     }
   }, [data]);
 
@@ -80,8 +80,8 @@ export default function Principal() {
           x: {round(x)} y: {round(y)} z: {round(z)}
         </Text>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={subscription ? _unsubscribe : _subscribe} style={styles.button}>
-            <Text>{subscription ? 'On' : 'Off'}</Text>
+          <TouchableOpacity onPress={subscripcion ? _unsubscribe : _subscribe} style={styles.button}>
+            <Text>{subscripcion ? 'On' : 'Off'}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={_slow} style={[styles.button, styles.middleButton]}>
             <Text>Slow</Text>
