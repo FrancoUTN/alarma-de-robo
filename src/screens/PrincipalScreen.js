@@ -11,261 +11,262 @@ import { Colors } from '../constants/styles';
 const ladoCuadradoSuperheroe = 75;
 
 export default function Principal({route}) {
-  const [subscription, setSubscription] = useState(null);
-  const [valorDeRightYTop, setValorDeRightYTop] = useState({
-    right: 0,
-    top: 0
-  });
-  const [dimensiones, setDimensiones] = useState({
-    ancho: 0,
-    alto: 0
-  });
-  const [gameOver, setGameOver] = useState(false);
-  const [seconds, setSeconds] = useState(0);
-  const [intervalo, setIntervalo] = useState(null);
-  const [userRef, setUserRef] = useState(null);
-  const [cargando, setCargando] = useState(false);
-  const [colRef, setColRef] = useState(null);
-  const [puntajes, setPuntajes] = useState([]);
+  return <Text>HOLA</Text>
+  // const [subscription, setSubscription] = useState(null);
+  // const [valorDeRightYTop, setValorDeRightYTop] = useState({
+  //   right: 0,
+  //   top: 0
+  // });
+  // const [dimensiones, setDimensiones] = useState({
+  //   ancho: 0,
+  //   alto: 0
+  // });
+  // const [gameOver, setGameOver] = useState(false);
+  // const [seconds, setSeconds] = useState(0);
+  // const [intervalo, setIntervalo] = useState(null);
+  // const [userRef, setUserRef] = useState(null);
+  // const [cargando, setCargando] = useState(false);
+  // const [colRef, setColRef] = useState(null);
+  // const [puntajes, setPuntajes] = useState([]);
 
-  useEffect(() => {
-    _subscribe();
-    return () => _unsubscribe();
-  }, []);
+  // useEffect(() => {
+  //   _subscribe();
+  //   return () => _unsubscribe();
+  // }, []);
 
-  useEffect(() => {
-    const db = getFirestore();    
-    const auth = getAuth();
-    const uid = auth.currentUser.uid;
-    const userRef = doc(db, 'usuarios', uid);
+  // useEffect(() => {
+  //   const db = getFirestore();    
+  //   const auth = getAuth();
+  //   const uid = auth.currentUser.uid;
+  //   const userRef = doc(db, 'usuarios', uid);
 
-    setUserRef(userRef);
-    setColRef(collection(db, 'usuarios'));
-  }, []);
+  //   setUserRef(userRef);
+  //   setColRef(collection(db, 'usuarios'));
+  // }, []);
 
-  useEffect(() => {
-    crearIntervalo();
+  // useEffect(() => {
+  //   crearIntervalo();
 
-    return () => limpiarIntervalo();
-  }, []);
+  //   return () => limpiarIntervalo();
+  // }, []);
   
-  useEffect(() => {    
-    let isMounted = true;
+  // useEffect(() => {    
+  //   let isMounted = true;
 
-    (
-      async () => {
-        if (dimensiones.ancho > 0 && dimensiones.alto > 0) {
-          const mitadDelAncho = dimensiones.ancho / 2;
-          const mitadDelAlto = dimensiones.alto / 2;
-          // "- 5" porque el ícono tiene áreas ligeramente menores al cuadrado total
-          const mitadDelSuperheroe = (ladoCuadradoSuperheroe - 15) / 2;
-          const xPared = Math.abs(valorDeRightYTop.right) + mitadDelSuperheroe;
-          const yPared = Math.abs(valorDeRightYTop.top) + mitadDelSuperheroe;
+  //   (
+  //     async () => {
+  //       if (dimensiones.ancho > 0 && dimensiones.alto > 0) {
+  //         const mitadDelAncho = dimensiones.ancho / 2;
+  //         const mitadDelAlto = dimensiones.alto / 2;
+  //         // "- 5" porque el ícono tiene áreas ligeramente menores al cuadrado total
+  //         const mitadDelSuperheroe = (ladoCuadradoSuperheroe - 15) / 2;
+  //         const xPared = Math.abs(valorDeRightYTop.right) + mitadDelSuperheroe;
+  //         const yPared = Math.abs(valorDeRightYTop.top) + mitadDelSuperheroe;
 
-          if (xPared >= mitadDelAncho || yPared >= mitadDelAlto) {
-            setGameOver(true);
-            _unsubscribe();
-            limpiarIntervalo();
+  //         if (xPared >= mitadDelAncho || yPared >= mitadDelAlto) {
+  //           setGameOver(true);
+  //           _unsubscribe();
+  //           limpiarIntervalo();
 
-            const q = query(colRef, orderBy("puntaje", "desc"), limit(3));
-            setCargando(true);
-            const querySnapshot = await getDocs(q);
+  //           const q = query(colRef, orderBy("puntaje", "desc"), limit(3));
+  //           setCargando(true);
+  //           const querySnapshot = await getDocs(q);
 
-            if (isMounted) {
-              traerListado(querySnapshot);
-              setCargando(false);
-            }
-          }
-        }
-      }
-    )();
+  //           if (isMounted) {
+  //             traerListado(querySnapshot);
+  //             setCargando(false);
+  //           }
+  //         }
+  //       }
+  //     }
+  //   )();
 
-    return () => { isMounted = false };
-  }, [valorDeRightYTop]);
+  //   return () => { isMounted = false };
+  // }, [valorDeRightYTop]);
 
-  async function traerListado(querySnapshot) {
-    const arrayDePuntajes = [];
+  // async function traerListado(querySnapshot) {
+  //   const arrayDePuntajes = [];
 
-    querySnapshot.forEach((doc) => {
-      const objetoPuntaje = {
-        id: doc.id,
-        correo: doc.data().correo,
-        puntaje: doc.data().puntaje
-      };
+  //   querySnapshot.forEach((doc) => {
+  //     const objetoPuntaje = {
+  //       id: doc.id,
+  //       correo: doc.data().correo,
+  //       puntaje: doc.data().puntaje
+  //     };
 
-      arrayDePuntajes.push(objetoPuntaje);
-    });
+  //     arrayDePuntajes.push(objetoPuntaje);
+  //   });
   
-    setPuntajes(arrayDePuntajes);
-  }
+  //   setPuntajes(arrayDePuntajes);
+  // }
 
-  const crearIntervalo = () => {
-    setIntervalo(
-      setInterval(() => {
-        setSeconds(seconds => seconds + 1);
-      }, 1000)
-    );
-  }
+  // const crearIntervalo = () => {
+  //   setIntervalo(
+  //     setInterval(() => {
+  //       setSeconds(seconds => seconds + 1);
+  //     }, 1000)
+  //   );
+  // }
 
-  const limpiarIntervalo = () => {
-    intervalo && clearInterval(intervalo);
-    setIntervalo(null);
-  };
+  // const limpiarIntervalo = () => {
+  //   intervalo && clearInterval(intervalo);
+  //   setIntervalo(null);
+  // };
 
-  const _subscribe = () => {
-    // Accelerometer.setUpdateInterval(2000);
-    Accelerometer.setUpdateInterval(70);
-    setSubscription(
-      Accelerometer.addListener(accelerometerData => {
-        const nuevoX = generarMovimiento(accelerometerData.x);
-        const nuevoY = generarMovimiento(accelerometerData.y);
+  // const _subscribe = () => {
+  //   // Accelerometer.setUpdateInterval(2000);
+  //   Accelerometer.setUpdateInterval(70);
+  //   setSubscription(
+  //     Accelerometer.addListener(accelerometerData => {
+  //       const nuevoX = generarMovimiento(accelerometerData.x);
+  //       const nuevoY = generarMovimiento(accelerometerData.y);
 
-        setValorDeRightYTop(valorAnterior => {
-          return({
+  //       setValorDeRightYTop(valorAnterior => {
+  //         return({
             
-            right: valorAnterior.right + nuevoX,
-            top: valorAnterior.top + nuevoY,
-          });
-        });
+  //           right: valorAnterior.right + nuevoX,
+  //           top: valorAnterior.top + nuevoY,
+  //         });
+  //       });
 
-      })
-    );
-  };
+  //     })
+  //   );
+  // };
 
-  function generarMovimiento(variable) {
-    if (variable > -0.05 && variable < 0) {
-      return -20;
-    }
-    if (variable > 0 && variable < 0.05) {
-      return 20;
-    }
-    // if (variable > -0.1 && variable < 0) {
-    //   return -30;
-    // }
-    // if (variable > 0 && variable < 0.1) {
-    //   return 30;
-    // }
-    return variable * 100;
-  }
+  // function generarMovimiento(variable) {
+  //   if (variable > -0.05 && variable < 0) {
+  //     return -20;
+  //   }
+  //   if (variable > 0 && variable < 0.05) {
+  //     return 20;
+  //   }
+  //   // if (variable > -0.1 && variable < 0) {
+  //   //   return -30;
+  //   // }
+  //   // if (variable > 0 && variable < 0.1) {
+  //   //   return 30;
+  //   // }
+  //   return variable * 100;
+  // }
 
-  const _unsubscribe = () => {
-    subscription && subscription.remove();
-    setSubscription(null);
-  };
+  // const _unsubscribe = () => {
+  //   subscription && subscription.remove();
+  //   setSubscription(null);
+  // };
 
-  const otrosEstilos = {
-    right: valorDeRightYTop.right,
-    top: valorDeRightYTop.top
-  };
+  // const otrosEstilos = {
+  //   right: valorDeRightYTop.right,
+  //   top: valorDeRightYTop.top
+  // };
 
-  function reiniciar() {
-    setValorDeRightYTop({
-      right: 0,
-      top: 0
-    });
-    setGameOver(false);
-    _subscribe();
-    crearIntervalo();
-    setSeconds(0);
-  }
+  // function reiniciar() {
+  //   setValorDeRightYTop({
+  //     right: 0,
+  //     top: 0
+  //   });
+  //   setGameOver(false);
+  //   _subscribe();
+  //   crearIntervalo();
+  //   setSeconds(0);
+  // }
 
-  async function guardarResultado() {
-    setCargando(true);
+  // async function guardarResultado() {
+  //   setCargando(true);
 
-    await updateDoc(userRef, {
-      puntaje: seconds
-    });
+  //   await updateDoc(userRef, {
+  //     puntaje: seconds
+  //   });
 
-    const q = query(colRef, orderBy("puntaje", "desc"), limit(3));
-    const querySnapshot = await getDocs(q);
+  //   const q = query(colRef, orderBy("puntaje", "desc"), limit(3));
+  //   const querySnapshot = await getDocs(q);
 
-    traerListado(querySnapshot);    
-    setCargando(false);
-  }
+  //   traerListado(querySnapshot);    
+  //   setCargando(false);
+  // }
 
-  function renderizarMejorJugador({item}) {
-    return (
-      <View style={styles.mejorJugadorContainer}>
-        <Text style={styles.mejorJugadorTexto}>
-          {item.correo}:
-        </Text>
-        <Text style={styles.mejorJugadorTexto}>
-          {item.puntaje ? item.puntaje : 0} puntos
-        </Text>
-      </View>
-    );
-  }
+  // function renderizarMejorJugador({item}) {
+  //   return (
+  //     <View style={styles.mejorJugadorContainer}>
+  //       <Text style={styles.mejorJugadorTexto}>
+  //         {item.correo}:
+  //       </Text>
+  //       <Text style={styles.mejorJugadorTexto}>
+  //         {item.puntaje ? item.puntaje : 0} puntos
+  //       </Text>
+  //     </View>
+  //   );
+  // }
 
-  return (
-    <View style={styles.container}>
+  // return (
+  //   <View style={styles.container}>
 
-      <View style={styles.datosContainer}>
-        <Text style={styles.timerTexto}>
-          Puntuación: {seconds}
-        </Text>
-      </View>
+  //     <View style={styles.datosContainer}>
+  //       <Text style={styles.timerTexto}>
+  //         Puntuación: {seconds}
+  //       </Text>
+  //     </View>
 
-      <View
-        style={styles.cuadradoContainer}
-        onLayout={(event) => {
-          const {width, height} = event.nativeEvent.layout;
-          setDimensiones({ancho: width, alto: height});
-        }}
-      >
-        {
-          gameOver ?
-          <View style={styles.containerGenerico}>
-            <View style={styles.listadoContainer}>
-              <Text style={styles.mejoresJugadoresTitulo}>
-                Mejores jugadores
-              </Text>              
-              {
-                cargando ?
-                <View style={styles.containerGenerico}>
-                  <ActivityIndicator
-                    size="large"
-                    color="white"
-                  />
-                </View>
-                :
-                <FlatList
-                  data={puntajes}
-                  renderItem={renderizarMejorJugador}
-                  keyExtracor={item => item.correo}
-                />
-              }
-            </View>
-            <View style={styles.perdisteContainer}>
-              <Text style={styles.perdisteTexto}>
-                ¡Perdiste!
-              </Text>
-              <View style={{marginBottom: 40}}>
-                <Button
-                  onPress={guardarResultado}
-                >
-                  Guardar resultado
-                </Button>
-              </View>
-              <Button
-                onPress={reiniciar}
-              >
-                ¿Reintentar?
-              </Button>
-            </View>
-          </View>
-          :
-          <View style={[styles.cuadrado, otrosEstilos]}>
-            <Image            
-              style={styles.superheroe}
-              // source={require('../../assets/batman.png')}
-              source={route.params.superheroe}
-            />
-          </View>
-        }
-      </View>
+  //     <View
+  //       style={styles.cuadradoContainer}
+  //       onLayout={(event) => {
+  //         const {width, height} = event.nativeEvent.layout;
+  //         setDimensiones({ancho: width, alto: height});
+  //       }}
+  //     >
+  //       {
+  //         gameOver ?
+  //         <View style={styles.containerGenerico}>
+  //           <View style={styles.listadoContainer}>
+  //             <Text style={styles.mejoresJugadoresTitulo}>
+  //               Mejores jugadores
+  //             </Text>              
+  //             {
+  //               cargando ?
+  //               <View style={styles.containerGenerico}>
+  //                 <ActivityIndicator
+  //                   size="large"
+  //                   color="white"
+  //                 />
+  //               </View>
+  //               :
+  //               <FlatList
+  //                 data={puntajes}
+  //                 renderItem={renderizarMejorJugador}
+  //                 keyExtracor={item => item.correo}
+  //               />
+  //             }
+  //           </View>
+  //           <View style={styles.perdisteContainer}>
+  //             <Text style={styles.perdisteTexto}>
+  //               ¡Perdiste!
+  //             </Text>
+  //             <View style={{marginBottom: 40}}>
+  //               <Button
+  //                 onPress={guardarResultado}
+  //               >
+  //                 Guardar resultado
+  //               </Button>
+  //             </View>
+  //             <Button
+  //               onPress={reiniciar}
+  //             >
+  //               ¿Reintentar?
+  //             </Button>
+  //           </View>
+  //         </View>
+  //         :
+  //         <View style={[styles.cuadrado, otrosEstilos]}>
+  //           <Image            
+  //             style={styles.superheroe}
+  //             // source={require('../../assets/batman.png')}
+  //             source={route.params.superheroe}
+  //           />
+  //         </View>
+  //       }
+  //     </View>
 
-    </View>
-  );
+  //   </View>
+  // );
 }
 
 const styles = StyleSheet.create({
