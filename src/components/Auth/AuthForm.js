@@ -1,18 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Button from '../ui/Button';
 import FlatButton from '../ui/FlatButton';
 import Input from './Input';
 
-function AuthForm({ onSubmit, credentialsInvalid }) {
+function AuthForm({ onSubmit, credentialsInvalid, correo, clave }) {
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
-
   const {
     email: emailIsInvalid,
     password: passwordIsInvalid
   } = credentialsInvalid;
+
+  useEffect(
+    () => {
+      setEnteredEmail(correo);
+      setEnteredPassword(clave);
+    }, [correo, clave]
+  );
 
   function updateInputValueHandler(inputType, enteredValue) {
     switch (inputType) {
@@ -30,31 +36,6 @@ function AuthForm({ onSubmit, credentialsInvalid }) {
       email: enteredEmail,
       password: enteredPassword
     });
-  }
-
-  function accesoAdminHandler() {
-    setEnteredEmail('admin@admin.com');
-    setEnteredPassword('111111');
-  }
-
-  function accesoInvitadoHandler() {
-    setEnteredEmail('invitado@invitado.com');
-    setEnteredPassword('222222');
-  }
-
-  function accesoUsuarioHandler() {
-    setEnteredEmail('usuario@usuario.com');
-    setEnteredPassword('333333');
-  }
-
-  function accesoAnonimoHandler() {
-    setEnteredEmail('anonimo@anonimo.com');
-    setEnteredPassword('444444');
-  }
-
-  function accesoTesterHandler() {
-    setEnteredEmail('tester@tester.com');
-    setEnteredPassword('555555');
   }
 
   return (
@@ -79,33 +60,6 @@ function AuthForm({ onSubmit, credentialsInvalid }) {
             Iniciar sesión
           </Button>
         </View>
-
-        {/* <View style={styles.buttons}>
-          <FlatButton onPress={accesoAdminHandler}>
-            Acceso admin
-          </FlatButton>
-        </View>
-        <View style={styles.buttons}>
-          <FlatButton onPress={accesoInvitadoHandler} >
-            Acceso invitado
-          </FlatButton>
-        </View>
-        <View style={styles.buttons}>
-          <FlatButton onPress={accesoUsuarioHandler} >
-            Acceso usuario
-          </FlatButton>
-        </View>        
-        <View style={styles.buttons}>
-          <FlatButton onPress={accesoAnonimoHandler} >
-            Acceso anónimo
-          </FlatButton>
-        </View>
-        <View style={styles.buttons}>
-          <FlatButton onPress={accesoTesterHandler} >
-            Acceso tester
-          </FlatButton>
-        </View> */}
-
       </View>
     </View>
   );

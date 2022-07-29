@@ -14,6 +14,43 @@ function AuthContent({ isLogin, onAuthenticate }) {
     password: false
   });
 
+  const [correo, setCorreo] = useState('');
+  const [clave, setClave] = useState('');
+
+  const valoresAccion = {
+    icon: require("../../../assets/arrow.png"),
+    color: Colors.terciary,
+    textColor: Colors.terciary
+  };
+
+  const acciones = [
+    {
+      text: "Administrador",
+      name: "admin",
+      ...valoresAccion
+    },
+    {
+      text: "Invitado",
+      name: "invitado",
+      ...valoresAccion
+    },
+    {
+      text: "Usuario",
+      name: "usuario",
+      ...valoresAccion
+    },
+    {
+      text: "Anónimo",
+      name: "anonimo",
+      ...valoresAccion
+    },
+    {
+      text: "Tester",
+      name: "tester",
+      ...valoresAccion
+    },
+  ];
+
   function submitHandler(credentials) {
     let { email, password } = credentials;
 
@@ -40,43 +77,30 @@ function AuthContent({ isLogin, onAuthenticate }) {
     onAuthenticate({ email, password });
   }
 
-  const acciones = [
-    {
-      text: "Administrador",
-      name: "admin",
-      icon: require("../../../assets/arrow.png"),
-      color: Colors.secondary300,
-      textColor: Colors.primary500
-    },
-    {
-      text: "Invitado",
-      name: "invitado",
-      icon: require("../../../assets/arrow.png"),
-      color: Colors.secondary300,
-      textColor: Colors.primary500
-    },
-    {
-      text: "Usuario",
-      name: "usuario",
-      icon: require("../../../assets/arrow.png"),
-      color: Colors.secondary300,
-      textColor: Colors.primary500
-    },
-    {
-      text: "Anónimo",
-      name: "anonimo",
-      icon: require("../../../assets/arrow.png"),
-      color: Colors.secondary300,
-      textColor: Colors.primary500
-    },
-    {
-      text: "Tester",
-      name: "tester",
-      icon: require("../../../assets/arrow.png"),
-      color: Colors.secondary300,
-      textColor: Colors.primary500
-    },
-  ];
+  function onPressItemHandler(name) {
+    switch (name) {
+      case 'admin':
+        setCorreo('admin@admin.com');
+        setClave('111111');
+        break;
+      case 'invitado':
+        setCorreo('invitado@invitado.com');
+        setClave('222222');
+        break;
+      case 'usuario':
+        setCorreo('usuario@usuario.com');
+        setClave('333333');
+        break;
+      case 'anonimo':
+        setCorreo('anonimo@anonimo.com');
+        setClave('444444');
+        break;
+      case 'tester':
+        setCorreo('tester@tester.com');
+        setClave('555555');
+        break;
+    }
+  }
 
   return (
     <>
@@ -85,17 +109,20 @@ function AuthContent({ isLogin, onAuthenticate }) {
           isLogin={isLogin}
           onSubmit={submitHandler}
           credentialsInvalid={credentialsInvalid}
+          correo={correo}
+          clave={clave}
         />
       </View>
       <View style={styles.accesosContainer}>
         <Text style={styles.accesosTexto}>
           Acceso rápido:
         </Text>
-          <FloatingAction
-            actions={acciones}
-            color={Colors.primary800}
-				    distanceToEdge={{vertical:20,horizontal:20}}
-          />
+        <FloatingAction
+          actions={acciones}
+          color={Colors.primary800}
+          distanceToEdge={{vertical:20,horizontal:20}}
+          onPressItem={name => onPressItemHandler(name)}
+        />
       </View>
     </>
   );
