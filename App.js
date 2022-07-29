@@ -11,6 +11,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import PrincipalScreen from './src/screens/PrincipalScreen';
 import AuthContextProvider, { AuthContext } from './src/store/auth-context';
 import IconButton from './src/components/ui/IconButton';
+import ModalScreen from "./src/screens/ModalScreen";
 
 // Inicializar App y Auth
 import './src/util/auth'
@@ -33,6 +34,15 @@ function AuthStack() {
       }}
     >
       <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Ingreso' }}/>
+      <Stack.Group screenOptions={{
+          presentation: 'modal',
+          headerStyle: { backgroundColor: Colors.error500 },
+          headerTintColor: 'white',
+          contentStyle: { backgroundColor: Colors.error100 },
+        }}f
+      >
+        <Stack.Screen name="MiModal" component={ModalScreen} options={{ title: 'Error' }}/>
+      </Stack.Group>
     </Stack.Navigator>
   );
 }
@@ -88,7 +98,7 @@ export default function App() {
 }
 
 function AnimatedSplashScreen({ children, image }) {
-  const animation = useMemo(() => new Animated.Value(1), []);
+  const animation = useMemo(() => new Animated.Value(0), []);
   const [isAppReady, setAppReady] = useState(false);
   const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
 
@@ -105,8 +115,8 @@ function AnimatedSplashScreen({ children, image }) {
   useEffect(() => {
     if (isAppReady) {
       Animated.timing(animation, {
-        toValue: 8,
-        duration: 700,
+        toValue: 1000,
+        duration: 1200,
         useNativeDriver: true,
       }).start(() => setAnimationComplete(true));
     }
@@ -122,7 +132,6 @@ function AnimatedSplashScreen({ children, image }) {
             StyleSheet.absoluteFill,
             {
               backgroundColor: Constants.manifest.splash.backgroundColor,
-              // opacity: animation,
             },
           ]}
         >
@@ -133,7 +142,7 @@ function AnimatedSplashScreen({ children, image }) {
               resizeMode: Constants.manifest.splash.resizeMode || "contain",
               transform: [
                 {
-                  scale: animation,
+                  translateX: animation,
                 },
               ],
             }}

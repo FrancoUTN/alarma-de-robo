@@ -1,12 +1,11 @@
 import { useContext, useState } from 'react';
-import { Alert } from 'react-native';
 
 import AuthContent from '../components/Auth/AuthContent';
 import LoadingOverlay from '../components/ui/LoadingOverlay';
 import { AuthContext } from '../store/auth-context';
 import login from '../util/authentication';
 
-function LoginScreen() {
+function LoginScreen({ navigation }) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const authCtx = useContext(AuthContext);
@@ -19,10 +18,12 @@ function LoginScreen() {
       authCtx.authenticate(usuario.email);
     }
     catch (error) {
-      Alert.alert(
-        'Authentication failed!',
-        'Could not log you in. Please check your credentials or try again later!'
-      );
+      console.log(error);
+      navigation.navigate({
+        name: 'MiModal',
+        params: { mensajeError: 'Falló la autenticación. Intenta nuevamente'}
+      });
+
       setIsAuthenticating(false);
     }
   }

@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, View } from 'react-native';
 
-import FlatButton from '../ui/FlatButton';
 import AuthForm from './AuthForm';
 import { Colors } from '../../constants/styles';
-import Button from '../ui/Button';
+import { useNavigation } from '@react-navigation/native';
 
 function AuthContent({ isLogin, onAuthenticate }) {
   const navigation = useNavigation();
@@ -24,28 +22,21 @@ function AuthContent({ isLogin, onAuthenticate }) {
     const emailIsValid = email.includes('@');
     const passwordIsValid = password.length >= 6;
 
-    if ( !emailIsValid || !passwordIsValid ) {
-      Alert.alert('Invalid input', 'Please check your entered credentials.');
-      
+    if ( !emailIsValid || !passwordIsValid ) {      
+      navigation.navigate({
+        name: 'MiModal',
+        params: { mensajeError: 'Datos inválidos.'}
+      });
+
       setCredentialsInvalid({
         email: !emailIsValid,
-        confirmEmail: !emailIsValid || !emailsAreEqual,
-        password: !passwordIsValid,
-        confirmPassword: !passwordIsValid || !passwordsAreEqual,
+        password: !passwordIsValid
       });
 
       return;
     }
 
     onAuthenticate({ email, password });
-  }
-
-  function accesoAdminHandler() {
-
-  }
-
-  function accesoInvitadoHandler() {
-
   }
 
   return (
@@ -57,15 +48,6 @@ function AuthContent({ isLogin, onAuthenticate }) {
           credentialsInvalid={credentialsInvalid}
         />
       </View>
-      
-      {/* <View style={styles.authContent}>
-        <FlatButton onPress={accesoAdminHandler}>
-          Acceso admin
-        </FlatButton>
-        <FlatButton onPress={accesoInvitadoHandler} >
-          Acceso invitado
-        </FlatButton>
-      </View> */}
     </>
   );
 }
