@@ -7,6 +7,7 @@ import { Colors } from '../constants/styles';
 
 export default function Principal() {
   const [activada, setActivada] = useState(true);
+  const [iterar, setIterar] = useState(true);
   
   function onPressHandler() {
     setActivada(
@@ -52,6 +53,26 @@ export default function Principal() {
     if (x > 1) {
       console.log("Lo pusiste en vertical. Valor de x: " + data.x);
       _unsubscribe();
+
+
+      // let iterar = true;
+
+      setTimeout(
+        () => {
+          // iterar = false;
+          console.log('setIterar(false)')
+          setIterar(false);
+        }, 4000
+      );
+
+      // while(iterar) {
+      //   console.log('Interando')
+      // }
+
+      funcionFalopa();
+
+
+
     }
     else if (y > 1) {
       console.log("Lo pusiste en horizontal. Valor de y: " + data.y);
@@ -73,6 +94,23 @@ export default function Principal() {
     // _subscribe();
     return () => _unsubscribe();
   }, []);
+
+  function funcionFalopa() {
+    // setTimeout(
+    //   () => {
+    //     console.log(iterar);
+    //     if (iterar) {
+    //       funcionFalopa();
+    //     }
+    //   },
+    //   1000);
+
+    if (iterar) {
+      setTimeout(funcionFalopa, 1000);
+
+      console.log("Hola");
+    }
+  }
 
   const { x, y, z } = data;
 
