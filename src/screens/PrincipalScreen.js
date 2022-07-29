@@ -29,14 +29,15 @@ export default function Principal() {
 
     console.log("Entré");
     
-    const sound = new Audio.Sound();
-    await sound.loadAsync(require('../../assets/elephant.mp3'), {isLooping: true});
+    // const sound = new Audio.Sound();
+    // await sound.loadAsync(require('../../assets/elephant.mp3'), {isLooping: true});
     
-		// const { sound } = await Audio.Sound.createAsync(
-		// 	require('../../assets/elephant.mp3')
-		// );
-    await sound.playAsync();
+		// // const { sound } = await Audio.Sound.createAsync(
+		// // 	require('../../assets/elephant.mp3')
+		// // );
+    // await sound.playAsync();
     // await sound.unloadAsync();
+              sonido.unloadAsync();
   };
 
   const _fast = () => {
@@ -76,11 +77,11 @@ export default function Principal() {
           setSonido(sound);
           await sound.playAsync();
 
-          setTimeout(
-            () => {
-              sound.unloadAsync();
-            }, 3000
-          );
+          // setTimeout(
+          //   () => {
+          //     sonido.unloadAsync();
+          //   }, 3000
+          // );
 
         }
         else if (y > 1) {
