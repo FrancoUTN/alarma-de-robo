@@ -8,6 +8,7 @@ import { Colors } from '../constants/styles';
 
 export default function Principal() {
   const [activada, setActivada] = useState(true);
+  const [sonido, setSonido] = useState();
   
   function onPressHandler() {
     setActivada(
@@ -29,7 +30,7 @@ export default function Principal() {
     console.log("Entré");
     
     const sound = new Audio.Sound();
-    await sound.loadAsync(require('../../assets/elephant.mp3'));
+    await sound.loadAsync(require('../../assets/elephant.mp3'), {isLooping: true});
     
 		// const { sound } = await Audio.Sound.createAsync(
 		// 	require('../../assets/elephant.mp3')
@@ -67,28 +68,19 @@ export default function Principal() {
           console.log("Lo pusiste en vertical. Valor de x: " + data.x);
           _unsubscribe();
 
-
-          let iterar = true;
+          const sound = new Audio.Sound();
+          await sound.loadAsync(
+            require('../../assets/elephant.mp3'),
+            { isLooping: true }
+          );
+          setSonido(sound);
+          await sound.playAsync();
 
           setTimeout(
             () => {
-              iterar = false;
-              console.log('setIterar(false)')
-            }, 4000
+              sound.unloadAsync();
+            }, 3000
           );
-
-          // const sound = new Audio.Sound();
-          // await sound.loadAsync(require('../../assets/1.mp3'));
-
-          while(iterar) {
-            console.log('Iterando...');
-            // await sound.playAsync();
-            await new Promise(resolve => setTimeout(resolve, 1000));
-          }
-          // await sound.playAsync();
-
-          // await sound.unloadAsync();
-
 
         }
         else if (y > 1) {
