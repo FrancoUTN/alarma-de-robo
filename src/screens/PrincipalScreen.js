@@ -46,19 +46,33 @@ export default function Principal() {
   };
 
   useEffect(() => {
-    const valorAbsoluto = Math.abs(data.x);
+    const x = Math.abs(data.x);
+    const y = Math.abs(data.y);
 
-    if (valorAbsoluto > 5) {
-      // console.log("X superó " + valorAbsoluto + "con: " + data.x);
-      console.log("X superó 5 con: " + data.x);
+    if (x > 1) {
+      console.log("Lo pusiste en vertical. Valor de x: " + data.x);
       _unsubscribe();
     }
+    else if (y > 1) {
+      console.log("Lo pusiste en horizontal. Valor de y: " + data.y);
+      _unsubscribe();
+    }
+    else if (data.z > 1) {
+      console.log("Lo giraste hacia la izquierda. Valor de <: " + data.z);
+      _unsubscribe();
+    }
+    else if (data.z < -1) {
+      console.log("Lo giraste hacia la derecha. Valor de <: " + data.z);
+      _unsubscribe();
+    }
+
+
   }, [data]);
 
-  // useEffect(() => {
-  //   _subscribe();
-  //   return () => _unsubscribe();
-  // }, []);
+  useEffect(() => {
+    // _subscribe();
+    return () => _unsubscribe();
+  }, []);
 
   const { x, y, z } = data;
 
