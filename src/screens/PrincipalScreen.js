@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import { Audio } from 'expo-av';
 import { Camera, FlashMode } from 'expo-camera';
@@ -89,6 +89,7 @@ export default function Principal() {
             { isLooping: true }
           );
           setSonido(sound);
+          Vibration.vibrate(5000);
           await sound.playAsync();
         }
       }
