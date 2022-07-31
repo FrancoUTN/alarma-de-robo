@@ -25,7 +25,7 @@ export function AuthStack() {
           headerStyle: { backgroundColor: Colors.error500 },
           headerTintColor: 'white',
           contentStyle: { backgroundColor: Colors.error100 },
-        }}f
+        }}
       >
         <Stack.Screen name="MiModal" component={ModalScreen} options={{ title: 'Error' }}/>
       </Stack.Group>
@@ -51,7 +51,7 @@ export function AuthenticatedStack() {
             <IconButton
               icon="exit"
               color={tintColor}
-              size={24}
+              size={26}
               onPress={authCtx.logout}
             />
           ),
