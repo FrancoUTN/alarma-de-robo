@@ -19,7 +19,7 @@ export function AuthStack() {
         contentStyle: { backgroundColor: Colors.primary100 },
       }}
     >
-      <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Ingreso' }}/>
+      <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Inicio de sesión' }}/>
       <Stack.Group screenOptions={{
           presentation: 'modal',
           headerStyle: { backgroundColor: Colors.error500 },
@@ -47,6 +47,7 @@ export function AuthenticatedStack() {
         name="Principal"
         component={PrincipalScreen}
         options={{
+          title: 'Alarma',
           headerRight: ({ tintColor }) => (
             <IconButton
               icon="exit"

@@ -57,7 +57,7 @@ function AuthForm({ onSubmit, credentialsInvalid, correo, clave }) {
         />
         <View style={styles.buttons}>
           <Button onPress={submitHandler}>
-            Iniciar sesión
+            Ingresar
           </Button>
         </View>
       </View>

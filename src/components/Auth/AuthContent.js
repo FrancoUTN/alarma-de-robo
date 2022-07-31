@@ -120,7 +120,8 @@ function AuthContent({ isLogin, onAuthenticate }) {
         <FloatingAction
           actions={acciones}
           color={Colors.primary800}
-          distanceToEdge={{vertical:20,horizontal:20}}
+          buttonSize={48}
+          distanceToEdge={{vertical:22,horizontal:28}}
           onPressItem={name => onPressItemHandler(name)}
         />
       </View>
@@ -151,12 +152,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: Colors.primary500,
-    marginTop: 150,
+    marginTop: 120,
     marginBottom: 30,
-    marginHorizontal: 32,
+    marginHorizontal: 50,
     padding: 30,
     height: 96,
-    borderRadius: 4,
+    borderRadius: 10,
   },
   accesosTexto: {
     fontSize: 20,

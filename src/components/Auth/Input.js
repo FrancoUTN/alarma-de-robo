@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   label: {
     color: 'white',
     marginBottom: 4,
+    fontSize: 18
   },
   labelInvalid: {
     color: Colors.error500,
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     backgroundColor: Colors.primary100,
     borderRadius: 4,
-    fontSize: 16,
+    fontSize: 20,
   },
   inputInvalid: {
     backgroundColor: Colors.error100,
