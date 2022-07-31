@@ -9,35 +9,17 @@ import { Colors } from '../constants/styles';
 export default function Principal() {
   const [activada, setActivada] = useState(true);
   const [sonido, setSonido] = useState();
-  
-  function onPressHandler() {
-    setActivada(
-      estadoActual => !estadoActual
-    );
-  }
-
-
   const [data, setData] = useState({
     x: 0,
     y: 0,
     z: 0,
   });
+  const { x, y, z } = data;
   const [subscripcion, setSubscripcion] = useState(null);
 
   const _slow = async () => {
-    Gyroscope.setUpdateInterval(2000);
-
-    console.log("Entré");
-    
-    // const sound = new Audio.Sound();
-    // await sound.loadAsync(require('../../assets/elephant.mp3'), {isLooping: true});
-    
-		// // const { sound } = await Audio.Sound.createAsync(
-		// // 	require('../../assets/elephant.mp3')
-		// // );
-    // await sound.playAsync();
-    // await sound.unloadAsync();
-              sonido.unloadAsync();
+    // Gyroscope.setUpdateInterval(2000);
+    sonido.unloadAsync();
   };
 
   const _fast = () => {
@@ -76,13 +58,6 @@ export default function Principal() {
           );
           setSonido(sound);
           await sound.playAsync();
-
-          // setTimeout(
-          //   () => {
-          //     sonido.unloadAsync();
-          //   }, 3000
-          // );
-
         }
         else if (y > 1) {
           console.log("Lo pusiste en horizontal. Valor de y: " + data.y);
@@ -105,24 +80,11 @@ export default function Principal() {
     return () => _unsubscribe();
   }, []);
 
-  function funcionFalopa() {
-    // setTimeout(
-    //   () => {
-    //     console.log(iterar);
-    //     if (iterar) {
-    //       funcionFalopa();
-    //     }
-    //   },
-    //   1000);
-
-    if (iterar) {
-      setTimeout(funcionFalopa, 1000);
-
-      console.log("Hola");
-    }
+  function onPressHandler() {
+    setActivada(
+      estadoActual => !estadoActual
+    );
   }
-
-  const { x, y, z } = data;
 
   function round(n) {
     if (!n) {
@@ -131,11 +93,8 @@ export default function Principal() {
     return Math.floor(n * 100) / 100;
   }
 
-
   return (
     <View style={styles.container}>
-
-
       <View style={styles.container}>
         <Text style={styles.text}>Gyroscope:</Text>
         <Text style={styles.text}>
@@ -172,8 +131,7 @@ export default function Principal() {
             resizeMode='contain'
           />
       }
-      </Pressable>
-      
+      </Pressable>      
     </View>
   );
 }
@@ -216,6 +174,4 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderColor: '#ccc',
   },
-
-
 });
