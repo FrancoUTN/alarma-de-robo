@@ -5,6 +5,7 @@ import { Audio } from 'expo-av';
 import { Camera, FlashMode } from 'expo-camera';
 
 import { Colors } from '../constants/styles';
+import Input from '../components/Auth/Input';
 
 
 export default function Principal() {
@@ -12,6 +13,7 @@ export default function Principal() {
   const [data, setData] = useState({x: 0, y: 0});
   const [subscripcion, setSubscripcion] = useState(null);
   const [estaHorizontal, setEstaHorizontal] = useState(true);
+  const [enteredPassword, setEnteredPassword] = useState('');
 
   // Cámara
   const [hasPermission, setHasPermission] = useState(null);
@@ -88,68 +90,58 @@ export default function Principal() {
   };
 
   function onLogoPressHandler() {
-    setAlarmaActivada(true);
-    // subscripcion ? _unsubscribe() : _subscribe();
-    _subscribe();    
-  }
-
-  function apagarAlarma() {
-  }
-
-  function round(n) {
-    if (!n) {
-      return 0;
+    if (!alarmaActivada) {
+      setAlarmaActivada(true);
+      _subscribe();
     }
-    return Math.floor(n * 100) / 100;
+    else {
+      setAlarmaActivada(false);
+      subscripcion && _unsubscribe();
+    }
+  }
+
+  function updateInputValueHandler(enteredValue) {
+      setEnteredPassword(enteredValue);
   }
 
   return (
     <View style={styles.container}>
-      <View style={styles.container}>
-        <Text style={styles.text}>Accelerometer:</Text>
-        <Text style={styles.text}>
-          x: {round(data.x)} y: {round(data.y)}
-        </Text>
-        <View style={styles.buttonContainer}>
-          {/* <TouchableOpacity
-              onPress={subscripcion ? _unsubscribe : _subscribe}
-              style={styles.button}
-          >
-            <Text>{subscripcion ? 'Activada' : 'Desactivada'}</Text>
-          </TouchableOpacity> */}
-          <TouchableOpacity
-            onPress={apagarAlarma}
-            style={[styles.button, styles.middleButton]}
-          >
-            <Text>Apagar</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
       {
         hasPermission && flashActivo &&
         <Camera style={styles.camera} flashMode={FlashMode.torch}/>
       }
-
-      <Pressable
-        style={styles.pressable}
-        onPress={onLogoPressHandler}
-      >
+      <View style={styles.pressableContainer}>
+        <Pressable
+          style={styles.pressable}
+          onPress={onLogoPressHandler}
+        >
+        {
+          alarmaActivada ?
+            <Image
+              style={styles.imagen}
+              source={require('../../assets/trusted.png')}
+              resizeMode='contain'
+            />
+          :
+            <Image
+              style={styles.imagen}
+              source={require('../../assets/burglar.png')}
+              resizeMode='contain'
+            />
+        }
+        </Pressable>
       {
-        alarmaActivada ?
-          <Image
-            style={styles.imagen}
-            source={require('../../assets/trusted.png')}
-            resizeMode='contain'
+        alarmaActivada &&
+        <View style={styles.inputContainer}>
+          <Input
+            label="Contraseña:"
+            onUpdateValue={updateInputValueHandler}
+            secure
+            value={enteredPassword}
           />
-        :
-          <Image
-            style={styles.imagen}
-            source={require('../../assets/burglar.png')}
-            resizeMode='contain'
-          />
+        </View>
       }
-      </Pressable>
+      </View>
     </View>
   );
 }
@@ -157,39 +149,33 @@ export default function Principal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center'
   },
+  pressableContainer: {
+    width: '70%',
+    height: '80%',
+    alignItems: 'center',
+  },
   pressable: {
-    flex: .4,
-    width: '55%',
+    width: '100%',
+    height: '55%',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.terciary,
-    borderRadius: 5
+    borderRadius: 15,
+    marginBottom: 30,
   },
   imagen: {
-    flex: 0.8
+    flex: 0.75
   },
-
-  text: {
-    textAlign: 'center',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    marginTop: 15,
-  },
-  button: {
-    flex: 1,
+  inputContainer: {
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#eee',
-    padding: 10,
-  },
-  middleButton: {
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderColor: '#ccc',
-  },
+    width: '100%',
+    height: 100,
+    paddingHorizontal: 20,
+    backgroundColor: Colors.primary500,
+    borderRadius: 8,
+    padding: 20
+  }
 });
