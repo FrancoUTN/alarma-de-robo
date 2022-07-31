@@ -16,6 +16,7 @@ export default function Principal() {
 
   // Cámara
   const [hasPermission, setHasPermission] = useState(null);
+  const [flashActivo, setFlashActivo] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -74,6 +75,7 @@ export default function Principal() {
             { isLooping: true }
           );
           setSonido(sound);
+          setFlashActivo(true);
           await sound.playAsync();
         }
         else if (y < 0.1 && !estaHorizontal) {
@@ -94,8 +96,6 @@ export default function Principal() {
   }, [data]);
 
   const _subscribe = () => {
-    // sonido && sonido.unloadAsync();
-
     Accelerometer.setUpdateInterval(200);
 
     setSubscripcion(
@@ -114,6 +114,11 @@ export default function Principal() {
     setActivada(
       estadoActual => !estadoActual
     );
+  }
+
+  function apagarAlarma() {
+    sonido && sonido.unloadAsync();
+    flashActivo && setFlashActivo(false);
   }
 
   function round(n) {
@@ -138,16 +143,16 @@ export default function Principal() {
             <Text>{subscripcion ? 'Activada' : 'Desactivada'}</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => sonido && sonido.unloadAsync()}
+            onPress={apagarAlarma}
             style={[styles.button, styles.middleButton]}
           >
-            <Text>Silenciar</Text>
+            <Text>Apagar</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       {
-        hasPermission &&
+        hasPermission && flashActivo &&
         <Camera style={styles.camera} flashMode={FlashMode.torch}/>
       }
 
