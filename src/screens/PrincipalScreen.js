@@ -32,82 +32,46 @@ export default function Principal() {
   }, []);
   
   useEffect(() => {
-    (
-      async () => {
-        // const x = Math.abs(data.x);
-        const x = data.x;
-        const y = Math.abs(data.y);
+    const x = data.x;
+    const y = Math.abs(data.y);
 
-        if (x > 0.9) {
-          console.log("Lo giraste hacia la izquierda. Valor de x: " + data.x);
-          // estaHorizontal && setEstaHorizontal(false);
-          _unsubscribe();
+    if (x > 0.9) {
+      dispararAlarma(require('../../assets/1.mp3'));
+    }
+    else if (x < -0.9) {
+      dispararAlarma(require('../../assets/2.mp3'));
+    }
+    else if (y > 0.9) {
+      dispararAlarma(require('../../assets/3.mp3'), true);
 
-          const sound = new Audio.Sound();
-          await sound.loadAsync(
-            require('../../assets/1.mp3'),
-            { isLooping: true }
-          );
-          setTimeout(() => {
-            sound.unloadAsync();
-            _subscribe();
-          }, 3000);
-          await sound.playAsync();
-        }
-        else if (x < -0.9) {
-          console.log("Lo giraste hacia la derecha. Valor de x: " + data.x);
-          // estaHorizontal && setEstaHorizontal(false);
-          _unsubscribe();
+      estaHorizontal && setEstaHorizontal(false);
+    }
+    else if (y < 0.1 && !estaHorizontal) {
+      dispararAlarma(require('../../assets/4.mp3'), false, true);
 
-          const sound = new Audio.Sound();
-          await sound.loadAsync(
-            require('../../assets/2.mp3'),
-            { isLooping: true }
-          );
-          setTimeout(() => {
-            sound.unloadAsync();
-            _subscribe();
-          }, 3000);
-          await sound.playAsync();
-        }
-        else if (y > 0.9) { // (Math.abs)
-          console.log("Lo pusiste vertical. Valor de y: " + data.y);
-          estaHorizontal && setEstaHorizontal(false);
-          _unsubscribe();
-
-          const sound = new Audio.Sound();
-          await sound.loadAsync(
-            require('../../assets/3.mp3'),
-            { isLooping: true }
-          );
-          setFlashActivo(true); // Flash
-          setTimeout(() => {
-            sound.unloadAsync();
-            setFlashActivo(false); // Flash
-            _subscribe();
-          }, 5000);
-          await sound.playAsync();
-        }
-        else if (y < 0.1 && !estaHorizontal) {
-          console.log("Volviste a ponerlo horizontal. Valor de x: " + data.x);
-          setEstaHorizontal(true);
-          _unsubscribe();
-
-          const sound = new Audio.Sound();
-          await sound.loadAsync(
-            require('../../assets/4.mp3'),
-            { isLooping: true }
-          );
-          Vibration.vibrate(5000);
-          setTimeout(() => {
-            sound.unloadAsync();
-            _subscribe();
-          }, 5000);
-          await sound.playAsync();
-        }
-      }
-    )();
+      setEstaHorizontal(true);
+    }
   }, [data]);
+
+  async function dispararAlarma(audio, flashea, vibra) {
+    _unsubscribe();
+
+    const sound = new Audio.Sound();
+    await sound.loadAsync(
+      audio,
+      { isLooping: true }
+    );
+
+    flashea && setFlashActivo(true);
+    vibra && Vibration.vibrate(5000);
+
+    setTimeout(() => {
+      sound.unloadAsync();
+      flashea && setFlashActivo(false);
+      _subscribe();
+    }, 5000);
+    await sound.playAsync();
+  }
 
   const _subscribe = () => {
     Accelerometer.setUpdateInterval(200);
