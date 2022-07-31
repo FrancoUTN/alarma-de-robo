@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import { Audio } from 'expo-av';
+import { Camera, FlashMode } from 'expo-camera';
 
 import { Colors } from '../constants/styles';
 
@@ -9,14 +10,20 @@ import { Colors } from '../constants/styles';
 export default function Principal() {
   const [activada, setActivada] = useState(true);
   const [sonido, setSonido] = useState();
-  const [data, setData] = useState({
-    x: 0,
-    y: 0,
-    z: 0,
-  });
-  const { x, y, z } = data;
+  const [data, setData] = useState({x: 0, y: 0});
   const [subscripcion, setSubscripcion] = useState(null);
   const [estaHorizontal, setEstaHorizontal] = useState(true);
+
+  // Cámara
+  const [hasPermission, setHasPermission] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+
 
   useEffect(() => {
     _subscribe();
@@ -121,17 +128,28 @@ export default function Principal() {
       <View style={styles.container}>
         <Text style={styles.text}>Accelerometer:</Text>
         <Text style={styles.text}>
-          x: {round(x)} y: {round(y)} z: {round(z)}
+          x: {round(data.x)} y: {round(data.y)}
         </Text>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={subscripcion ? _unsubscribe : _subscribe} style={styles.button}>
+          <TouchableOpacity
+              onPress={subscripcion ? _unsubscribe : _subscribe}
+              style={styles.button}
+          >
             <Text>{subscripcion ? 'Activada' : 'Desactivada'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => sonido && sonido.unloadAsync()} style={[styles.button, styles.middleButton]}>
+          <TouchableOpacity
+            onPress={() => sonido && sonido.unloadAsync()}
+            style={[styles.button, styles.middleButton]}
+          >
             <Text>Silenciar</Text>
           </TouchableOpacity>
         </View>
       </View>
+
+      {
+        hasPermission &&
+        <Camera style={styles.camera} flashMode={FlashMode.torch}/>
+      }
 
       <Pressable
         style={styles.pressable}
