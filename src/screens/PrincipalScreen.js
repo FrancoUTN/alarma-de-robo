@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native';
+import { useContext, useEffect, useState } from 'react';
+import { Image, Pressable, StyleSheet, Vibration, View } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import { Audio } from 'expo-av';
 import { Camera, FlashMode } from 'expo-camera';
 
 import { Colors } from '../constants/styles';
 import Input from '../components/Auth/Input';
+import { AuthContext } from '../store/auth-context';
 
 
 export default function Principal() {
@@ -14,6 +15,7 @@ export default function Principal() {
   const [subscripcion, setSubscripcion] = useState(null);
   const [estaHorizontal, setEstaHorizontal] = useState(true);
   const [enteredPassword, setEnteredPassword] = useState('');
+  const authCtx = useContext(AuthContext);
 
   // Cámara
   const [hasPermission, setHasPermission] = useState(null);
@@ -94,9 +96,10 @@ export default function Principal() {
       setAlarmaActivada(true);
       _subscribe();
     }
-    else {
+    else if (enteredPassword == authCtx.clave) {
       setAlarmaActivada(false);
       subscripcion && _unsubscribe();
+      setEnteredPassword('');
     }
   }
 

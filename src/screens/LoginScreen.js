@@ -15,7 +15,7 @@ function LoginScreen({ navigation }) {
     try {
       const usuario = await login(email, password);
 
-      authCtx.authenticate(usuario.email);
+      authCtx.authenticate(usuario.email, password);
     }
     catch (error) {
       console.log(error);

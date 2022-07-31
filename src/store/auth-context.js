@@ -2,15 +2,18 @@ import { createContext, useState } from 'react';
 
 export const AuthContext = createContext({
   email: '',
-  authenticate: (email) => {},
+  clave: '',
+  authenticate: (email, clave) => {},
   logout: () => {},
 });
 
 function AuthContextProvider({ children }) {
   const [email, setEmail] = useState();
+  const [clave, setClave] = useState();
 
-  function authenticate(email) {
+  function authenticate(email, clave) {
     setEmail(email);
+    setClave(clave);
   }
 
   function logout() {
@@ -19,6 +22,7 @@ function AuthContextProvider({ children }) {
 
   const value = {
     email: email,
+    clave: clave,
     authenticate: authenticate,
     logout: logout,
   };
