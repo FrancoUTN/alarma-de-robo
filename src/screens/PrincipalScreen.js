@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Gyroscope } from 'expo-sensors';
+import { Accelerometer } from 'expo-sensors';
 import { Audio } from 'expo-av';
 
 import { Colors } from '../constants/styles';
@@ -52,50 +52,50 @@ export default function Principal() {
           setSonido(sound);
           await sound.playAsync();
         }
-        else if (data.z > 1) {
-          console.log("Lo giraste hacia la izquierda. Valor de <: " + data.z);
-          _unsubscribe();
+        // else if (data.z > 1) {
+        //   console.log("Lo giraste hacia la izquierda. Valor de <: " + data.z);
+        //   _unsubscribe();
 
-          const sound = new Audio.Sound();
-          await sound.loadAsync(
-            require('../../assets/3.mp3'),
-            { isLooping: true }
-          );
-          setSonido(sound);
-          await sound.playAsync();
-        }
-        else if (data.z < -1) {
-          console.log("Lo giraste hacia la derecha. Valor de <: " + data.z);
-          _unsubscribe();
+        //   const sound = new Audio.Sound();
+        //   await sound.loadAsync(
+        //     require('../../assets/3.mp3'),
+        //     { isLooping: true }
+        //   );
+        //   setSonido(sound);
+        //   await sound.playAsync();
+        // }
+        // else if (data.z < -1) {
+        //   console.log("Lo giraste hacia la derecha. Valor de <: " + data.z);
+        //   _unsubscribe();
           
-          const sound = new Audio.Sound();
-          await sound.loadAsync(
-            require('../../assets/4.mp3'),
-            { isLooping: true }
-          );
-          setSonido(sound);
-          await sound.playAsync();
-        }
+        //   const sound = new Audio.Sound();
+        //   await sound.loadAsync(
+        //     require('../../assets/4.mp3'),
+        //     { isLooping: true }
+        //   );
+        //   setSonido(sound);
+        //   await sound.playAsync();
+        // }
       }
     )();
   }, [data]);
 
   const _slow = async () => {
-    Gyroscope.setUpdateInterval(500);
+    Accelerometer.setUpdateInterval(500);
   };
 
   const _fast = () => {
-    Gyroscope.setUpdateInterval(100);
+    Accelerometer.setUpdateInterval(100);
   };
 
   const _subscribe = () => {
     sonido && sonido.unloadAsync();
 
-    Gyroscope.setUpdateInterval(200);
+    Accelerometer.setUpdateInterval(200);
 
     setSubscripcion(
-      Gyroscope.addListener(
-        gyroscopeData => setData(gyroscopeData)
+      Accelerometer.addListener(
+        AccelerometerData => setData(AccelerometerData)
       )
     );
   };
@@ -121,7 +121,7 @@ export default function Principal() {
   return (
     <View style={styles.container}>
       <View style={styles.container}>
-        <Text style={styles.text}>Gyroscope:</Text>
+        <Text style={styles.text}>Accelerometer:</Text>
         <Text style={styles.text}>
           x: {round(x)} y: {round(y)} z: {round(z)}
         </Text>
