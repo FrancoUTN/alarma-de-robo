@@ -115,7 +115,7 @@ export default function Principal() {
       }
       <View style={styles.pressableContainer}>
         <Pressable
-          style={styles.pressable}
+          style={[styles.pressable, alarmaActivada ? styles.pressableSuccess : styles.pressableWarning]}
           onPress={onLogoPressHandler}
         >
         {
@@ -165,9 +165,14 @@ const styles = StyleSheet.create({
     height: '55%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.terciary,
     borderRadius: 15,
     marginBottom: 30,
+  },
+  pressableWarning: {
+    backgroundColor: '#E98A15',
+  },
+  pressableSuccess: {
+    backgroundColor: '#317B22',
   },
   imagen: {
     flex: 0.75
