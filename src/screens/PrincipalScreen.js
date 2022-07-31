@@ -17,30 +17,11 @@ export default function Principal() {
   const { x, y, z } = data;
   const [subscripcion, setSubscripcion] = useState(null);
 
-  const _slow = async () => {
-    // Gyroscope.setUpdateInterval(2000);
-    sonido.unloadAsync();
-  };
-
-  const _fast = () => {
-    Gyroscope.setUpdateInterval(100);
-  };
-
-  const _subscribe = () => {
-    Gyroscope.setUpdateInterval(200);
-
-    setSubscripcion(
-      Gyroscope.addListener(gyroscopeData => {
-        setData(gyroscopeData);
-      })
-    );
-  };
-
-  const _unsubscribe = () => {
-    subscripcion && subscripcion.remove();
-    setSubscripcion(null);
-  };
-
+  useEffect(() => {
+    _subscribe();
+    return () => _unsubscribe();
+  }, []);
+  
   useEffect(() => {
     (
       async () => {
@@ -53,7 +34,7 @@ export default function Principal() {
 
           const sound = new Audio.Sound();
           await sound.loadAsync(
-            require('../../assets/elephant.mp3'),
+            require('../../assets/1.mp3'),
             { isLooping: true }
           );
           setSonido(sound);
@@ -62,23 +43,67 @@ export default function Principal() {
         else if (y > 1) {
           console.log("Lo pusiste en horizontal. Valor de y: " + data.y);
           _unsubscribe();
+
+          const sound = new Audio.Sound();
+          await sound.loadAsync(
+            require('../../assets/2.mp3'),
+            { isLooping: true }
+          );
+          setSonido(sound);
+          await sound.playAsync();
         }
         else if (data.z > 1) {
           console.log("Lo giraste hacia la izquierda. Valor de <: " + data.z);
           _unsubscribe();
+
+          const sound = new Audio.Sound();
+          await sound.loadAsync(
+            require('../../assets/3.mp3'),
+            { isLooping: true }
+          );
+          setSonido(sound);
+          await sound.playAsync();
         }
         else if (data.z < -1) {
           console.log("Lo giraste hacia la derecha. Valor de <: " + data.z);
           _unsubscribe();
+          
+          const sound = new Audio.Sound();
+          await sound.loadAsync(
+            require('../../assets/4.mp3'),
+            { isLooping: true }
+          );
+          setSonido(sound);
+          await sound.playAsync();
         }
       }
     )();
   }, [data]);
 
-  useEffect(() => {
-    // _subscribe();
-    return () => _unsubscribe();
-  }, []);
+  const _slow = async () => {
+    Gyroscope.setUpdateInterval(500);
+  };
+
+  const _fast = () => {
+    Gyroscope.setUpdateInterval(100);
+  };
+
+  const _subscribe = () => {
+    sonido && sonido.unloadAsync();
+
+    Gyroscope.setUpdateInterval(200);
+
+    setSubscripcion(
+      Gyroscope.addListener(
+        gyroscopeData => setData(gyroscopeData)
+      )
+    );
+  };
+
+  const _unsubscribe = () => {
+    subscripcion && subscripcion.remove();
+    setSubscripcion(null);
+  };
 
   function onPressHandler() {
     setActivada(
@@ -102,7 +127,7 @@ export default function Principal() {
         </Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={subscripcion ? _unsubscribe : _subscribe} style={styles.button}>
-            <Text>{subscripcion ? 'On' : 'Off'}</Text>
+            <Text>{subscripcion ? 'Desactivar' : 'Activar'}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={_slow} style={[styles.button, styles.middleButton]}>
             <Text>Slow</Text>
