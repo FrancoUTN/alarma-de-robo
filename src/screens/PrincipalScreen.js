@@ -16,6 +16,7 @@ export default function Principal() {
   });
   const { x, y, z } = data;
   const [subscripcion, setSubscripcion] = useState(null);
+  const [estaHorizontal, setEstaHorizontal] = useState(true);
 
   useEffect(() => {
     _subscribe();
@@ -25,11 +26,13 @@ export default function Principal() {
   useEffect(() => {
     (
       async () => {
-        const x = Math.abs(data.x);
+        // const x = Math.abs(data.x);
+        const x = data.x;
         const y = Math.abs(data.y);
 
-        if (x > 1) {
-          console.log("Lo pusiste en vertical. Valor de x: " + data.x);
+        if (x > 0.9) {
+          console.log("Lo giraste hacia la izquierda. Valor de x: " + data.x);
+          // estaHorizontal && setEstaHorizontal(false);
           _unsubscribe();
 
           const sound = new Audio.Sound();
@@ -40,8 +43,9 @@ export default function Principal() {
           setSonido(sound);
           await sound.playAsync();
         }
-        else if (y > 1) {
-          console.log("Lo pusiste en horizontal. Valor de y: " + data.y);
+        else if (x < -0.9) {
+          console.log("Lo giraste hacia la derecha. Valor de x: " + data.x);
+          // estaHorizontal && setEstaHorizontal(false);
           _unsubscribe();
 
           const sound = new Audio.Sound();
@@ -52,44 +56,38 @@ export default function Principal() {
           setSonido(sound);
           await sound.playAsync();
         }
-        // else if (data.z > 1) {
-        //   console.log("Lo giraste hacia la izquierda. Valor de <: " + data.z);
-        //   _unsubscribe();
+        else if (y > 0.9) { // (Math.abs)
+          console.log("Lo pusiste vertical. Valor de y: " + data.y);
+          estaHorizontal && setEstaHorizontal(false);
+          _unsubscribe();
 
-        //   const sound = new Audio.Sound();
-        //   await sound.loadAsync(
-        //     require('../../assets/3.mp3'),
-        //     { isLooping: true }
-        //   );
-        //   setSonido(sound);
-        //   await sound.playAsync();
-        // }
-        // else if (data.z < -1) {
-        //   console.log("Lo giraste hacia la derecha. Valor de <: " + data.z);
-        //   _unsubscribe();
-          
-        //   const sound = new Audio.Sound();
-        //   await sound.loadAsync(
-        //     require('../../assets/4.mp3'),
-        //     { isLooping: true }
-        //   );
-        //   setSonido(sound);
-        //   await sound.playAsync();
-        // }
+          const sound = new Audio.Sound();
+          await sound.loadAsync(
+            require('../../assets/3.mp3'),
+            { isLooping: true }
+          );
+          setSonido(sound);
+          await sound.playAsync();
+        }
+        else if (y < 0.1 && !estaHorizontal) {
+          console.log("Volviste a ponerlo horizontal. Valor de x: " + data.x);
+          setEstaHorizontal(true);
+          _unsubscribe();
+
+          const sound = new Audio.Sound();
+          await sound.loadAsync(
+            require('../../assets/4.mp3'),
+            { isLooping: true }
+          );
+          setSonido(sound);
+          await sound.playAsync();
+        }
       }
     )();
   }, [data]);
 
-  const _slow = async () => {
-    Accelerometer.setUpdateInterval(500);
-  };
-
-  const _fast = () => {
-    Accelerometer.setUpdateInterval(100);
-  };
-
   const _subscribe = () => {
-    sonido && sonido.unloadAsync();
+    // sonido && sonido.unloadAsync();
 
     Accelerometer.setUpdateInterval(200);
 
@@ -127,13 +125,10 @@ export default function Principal() {
         </Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={subscripcion ? _unsubscribe : _subscribe} style={styles.button}>
-            <Text>{subscripcion ? 'Desactivar' : 'Activar'}</Text>
+            <Text>{subscripcion ? 'Activada' : 'Desactivada'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={_slow} style={[styles.button, styles.middleButton]}>
-            <Text>Slow</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={_fast} style={styles.button}>
-            <Text>Fast</Text>
+          <TouchableOpacity onPress={() => sonido && sonido.unloadAsync()} style={[styles.button, styles.middleButton]}>
+            <Text>Silenciar</Text>
           </TouchableOpacity>
         </View>
       </View>
