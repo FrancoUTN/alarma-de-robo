@@ -50,6 +50,9 @@ export default function Principal() {
             { isLooping: true }
           );
           setSonido(sound);
+          setTimeout(() => {
+            apagarAlarma();
+          }, 5000);
           await sound.playAsync();
         }
         else if (x < -0.9) {
@@ -63,6 +66,9 @@ export default function Principal() {
             { isLooping: true }
           );
           setSonido(sound);
+          setTimeout(() => {
+            apagarAlarma();
+          }, 5000);
           await sound.playAsync();
         }
         else if (y > 0.9) { // (Math.abs)
@@ -77,6 +83,11 @@ export default function Principal() {
           );
           setSonido(sound);
           setFlashActivo(true);
+          setTimeout(() => {
+            console.log("Sí");
+            sound.unloadAsync();
+            setFlashActivo(false);
+          }, 5000);
           await sound.playAsync();
         }
         else if (y < 0.1 && !estaHorizontal) {
@@ -91,6 +102,12 @@ export default function Principal() {
           );
           setSonido(sound);
           Vibration.vibrate(5000);
+          setTimeout(() => {
+            console.log("1");
+            // apagarAlarma();
+            sound.unloadAsync();
+            flashActivo && setFlashActivo(false);
+          }, 5000);
           await sound.playAsync();
         }
       }
@@ -126,7 +143,8 @@ export default function Principal() {
   }
 
   function apagarAlarma() {
-    setLogoActivada(false);
+    console.log("2");
+    // setLogoActivada(false);
     sonido && sonido.unloadAsync();
     flashActivo && setFlashActivo(false);
   }
