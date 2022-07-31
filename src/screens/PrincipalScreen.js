@@ -10,7 +10,6 @@ import { Colors } from '../constants/styles';
 export default function Principal() {
   const [logoActivada, setLogoActivada] = useState(true);
   const [alarmaActivada, setAlarmaActivada] = useState(true);
-  const [sonido, setSonido] = useState();
   const [data, setData] = useState({x: 0, y: 0});
   const [subscripcion, setSubscripcion] = useState(null);
   const [estaHorizontal, setEstaHorizontal] = useState(true);
@@ -49,10 +48,10 @@ export default function Principal() {
             require('../../assets/1.mp3'),
             { isLooping: true }
           );
-          setSonido(sound);
           setTimeout(() => {
-            apagarAlarma();
-          }, 5000);
+            sound.unloadAsync();
+            _subscribe();
+          }, 3000);
           await sound.playAsync();
         }
         else if (x < -0.9) {
@@ -65,10 +64,10 @@ export default function Principal() {
             require('../../assets/2.mp3'),
             { isLooping: true }
           );
-          setSonido(sound);
           setTimeout(() => {
-            apagarAlarma();
-          }, 5000);
+            sound.unloadAsync();
+            _subscribe();
+          }, 3000);
           await sound.playAsync();
         }
         else if (y > 0.9) { // (Math.abs)
@@ -81,12 +80,11 @@ export default function Principal() {
             require('../../assets/3.mp3'),
             { isLooping: true }
           );
-          setSonido(sound);
-          setFlashActivo(true);
+          setFlashActivo(true); // Flash
           setTimeout(() => {
-            console.log("Sí");
             sound.unloadAsync();
-            setFlashActivo(false);
+            setFlashActivo(false); // Flash
+            _subscribe();
           }, 5000);
           await sound.playAsync();
         }
@@ -100,13 +98,10 @@ export default function Principal() {
             require('../../assets/4.mp3'),
             { isLooping: true }
           );
-          setSonido(sound);
           Vibration.vibrate(5000);
           setTimeout(() => {
-            console.log("1");
-            // apagarAlarma();
             sound.unloadAsync();
-            flashActivo && setFlashActivo(false);
+            _subscribe();
           }, 5000);
           await sound.playAsync();
         }
@@ -143,10 +138,6 @@ export default function Principal() {
   }
 
   function apagarAlarma() {
-    console.log("2");
-    // setLogoActivada(false);
-    sonido && sonido.unloadAsync();
-    flashActivo && setFlashActivo(false);
   }
 
   function round(n) {
