@@ -8,7 +8,8 @@ import { Colors } from '../constants/styles';
 
 
 export default function Principal() {
-  const [activada, setActivada] = useState(true);
+  const [logoActivada, setLogoActivada] = useState(true);
+  const [alarmaActivada, setAlarmaActivada] = useState(true);
   const [sonido, setSonido] = useState();
   const [data, setData] = useState({x: 0, y: 0});
   const [subscripcion, setSubscripcion] = useState(null);
@@ -111,13 +112,21 @@ export default function Principal() {
     setSubscripcion(null);
   };
 
-  function onPressHandler() {
-    setActivada(
-      estadoActual => !estadoActual
-    );
+  function onLogoPressHandler() {
+    if (!alarmaActivada) {
+      // if (!logoActivada) {
+      //   setLogoActivada(true);
+      // }
+
+      setLogoActivada(estadoActual => !estadoActual);
+      setAlarmaActivada(true);
+      
+      subscripcion ? _unsubscribe() : _subscribe();
+    }
   }
 
   function apagarAlarma() {
+    setLogoActivada(false);
     sonido && sonido.unloadAsync();
     flashActivo && setFlashActivo(false);
   }
@@ -137,12 +146,12 @@ export default function Principal() {
           x: {round(data.x)} y: {round(data.y)}
         </Text>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
               onPress={subscripcion ? _unsubscribe : _subscribe}
               style={styles.button}
           >
             <Text>{subscripcion ? 'Activada' : 'Desactivada'}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={apagarAlarma}
             style={[styles.button, styles.middleButton]}
@@ -159,10 +168,10 @@ export default function Principal() {
 
       <Pressable
         style={styles.pressable}
-        onPress={onPressHandler}
+        onPress={onLogoPressHandler}
       >
       {
-        activada ?
+        logoActivada ?
           <Image
             style={styles.imagen}
             source={require('../../assets/trusted.png')}
@@ -175,7 +184,7 @@ export default function Principal() {
             resizeMode='contain'
           />
       }
-      </Pressable>      
+      </Pressable>
     </View>
   );
 }
