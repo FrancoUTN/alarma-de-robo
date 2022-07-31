@@ -8,8 +8,7 @@ import { Colors } from '../constants/styles';
 
 
 export default function Principal() {
-  const [logoActivada, setLogoActivada] = useState(true);
-  const [alarmaActivada, setAlarmaActivada] = useState(true);
+  const [alarmaActivada, setAlarmaActivada] = useState(false);
   const [data, setData] = useState({x: 0, y: 0});
   const [subscripcion, setSubscripcion] = useState(null);
   const [estaHorizontal, setEstaHorizontal] = useState(true);
@@ -27,7 +26,7 @@ export default function Principal() {
 
 
   useEffect(() => {
-    _subscribe();
+    // _subscribe();
     return () => _unsubscribe();
   }, []);
   
@@ -89,16 +88,9 @@ export default function Principal() {
   };
 
   function onLogoPressHandler() {
-    if (!alarmaActivada) {
-      // if (!logoActivada) {
-      //   setLogoActivada(true);
-      // }
-
-      setLogoActivada(estadoActual => !estadoActual);
-      setAlarmaActivada(true);
-      
-      subscripcion ? _unsubscribe() : _subscribe();
-    }
+    setAlarmaActivada(true);
+    // subscripcion ? _unsubscribe() : _subscribe();
+    _subscribe();    
   }
 
   function apagarAlarma() {
@@ -144,7 +136,7 @@ export default function Principal() {
         onPress={onLogoPressHandler}
       >
       {
-        logoActivada ?
+        alarmaActivada ?
           <Image
             style={styles.imagen}
             source={require('../../assets/trusted.png')}
