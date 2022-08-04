@@ -50,7 +50,7 @@ export function AuthenticatedStack() {
           title: 'Alarma',
           headerRight: ({ tintColor }) => (
             <IconButton
-              icon="exit"
+              icon="log-out-outline"
               color={tintColor}
               size={26}
               onPress={authCtx.logout}
