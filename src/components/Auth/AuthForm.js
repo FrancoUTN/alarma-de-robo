@@ -42,7 +42,7 @@ function AuthForm({ onSubmit, credentialsInvalid, correo, clave }) {
     <View style={styles.form}>
       <View>
         <Input
-          label="Correo electrónico"
+          label="Correo"
           onUpdateValue={updateInputValueHandler.bind(this, 'email')}
           value={enteredEmail}
           keyboardType="email-address"
@@ -69,6 +69,6 @@ export default AuthForm;
 
 const styles = StyleSheet.create({
   buttons: {
-    marginTop: 12,
+    marginTop: 20,
   },
 });

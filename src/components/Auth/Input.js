@@ -35,8 +35,9 @@ const styles = StyleSheet.create({
   },
   label: {
     color: 'white',
-    marginBottom: 4,
-    fontSize: 18
+    marginBottom: 12,
+    fontSize: 18,
+    textAlign: 'center'
   },
   labelInvalid: {
     color: Colors.error500,

@@ -136,13 +136,7 @@ const styles = StyleSheet.create({
     marginTop: 64,
     marginHorizontal: 32,
     padding: 16,
-    borderRadius: 4,
     backgroundColor: Colors.primary500,
-    elevation: 2,
-    shadowColor: 'black',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.35,
-    shadowRadius: 4,
   },
   buttons: {
     marginTop: 8,

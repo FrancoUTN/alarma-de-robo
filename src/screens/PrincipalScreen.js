@@ -137,7 +137,7 @@ export default function Principal() {
         alarmaActivada &&
         <View style={styles.inputContainer}>
           <Input
-            label="Contraseña:"
+            label="Para desactivarla, ingrese su contraseña:"
             onUpdateValue={updateInputValueHandler}
             secure
             value={enteredPassword}
@@ -156,17 +156,16 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   pressableContainer: {
-    width: '70%',
-    height: '80%',
+    width: '100%',
+    height: '100%',
     alignItems: 'center',
   },
   pressable: {
-    width: '100%',
-    height: '55%',
+    // width: '100%',
+    flex: 1,
+    // height: '80%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 15,
-    marginBottom: 30,
   },
   pressableWarning: {
     backgroundColor: '#E98A15',
@@ -178,12 +177,9 @@ const styles = StyleSheet.create({
     flex: 0.75
   },
   inputContainer: {
-    justifyContent: 'center',
     width: '100%',
-    height: 100,
-    paddingHorizontal: 20,
+    paddingHorizontal: 80,
     backgroundColor: Colors.primary500,
-    borderRadius: 8,
-    padding: 20
+    paddingBottom: 20
   }
 });
