@@ -17,7 +17,8 @@ export default function ModalScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   texto: {
     fontSize: 20,
-    color: 'white',
-    margin: 20
+    color: Colors.primary500,
+    margin: 20,
+    textAlign: 'center'
   }
 });

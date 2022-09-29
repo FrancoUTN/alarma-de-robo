@@ -21,7 +21,7 @@ function LoginScreen({ navigation }) {
       console.log(error);
       navigation.navigate({
         name: 'MiModal',
-        params: { mensajeError: 'Falló la autenticación. Intenta nuevamente'}
+        params: { mensajeError: 'Error de autenticación. Intenta nuevamente.'}
       });
 
       setIsAuthenticating(false);
