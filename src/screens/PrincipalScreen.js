@@ -100,6 +100,9 @@ export default function Principal() {
       subscripcion && _unsubscribe();
       setEnteredPassword('');
     }
+    else {
+      dispararAlarma(require('../../assets/5.mp3'), true, true);
+    }
   }
 
   function updateInputValueHandler(enteredValue) {
