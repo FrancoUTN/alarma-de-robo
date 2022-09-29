@@ -48,14 +48,18 @@ export function AuthenticatedStack() {
         component={PrincipalScreen}
         options={{
           title: 'Alarma',
-          headerRight: ({ tintColor }) => (
-            <IconButton
-              icon="log-out-outline"
-              color={tintColor}
-              size={26}
-              onPress={authCtx.logout}
-            />
-          ),
+          headerRight: ({ tintColor }) => {
+            if (!authCtx.activada) {
+              return (
+                <IconButton
+                  icon="log-out-outline"
+                  color={tintColor}
+                  size={26}
+                  onPress={authCtx.logout}
+                />
+              );
+            }
+          },
         }}
       />
     </Stack.Navigator>

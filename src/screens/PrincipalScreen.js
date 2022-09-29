@@ -10,7 +10,6 @@ import { AuthContext } from '../store/auth-context';
 
 
 export default function Principal() {
-  const [alarmaActivada, setAlarmaActivada] = useState(false);
   const [data, setData] = useState({x: 0, y: 0});
   const [subscripcion, setSubscripcion] = useState(null);
   const [estaHorizontal, setEstaHorizontal] = useState(true);
@@ -92,12 +91,12 @@ export default function Principal() {
   };
 
   function onLogoPressHandler() {
-    if (!alarmaActivada) {
-      setAlarmaActivada(true);
+    if (!authCtx.activada) {
+      authCtx.activarODesactivar();
       _subscribe();
     }
     else if (enteredPassword == authCtx.clave) {
-      setAlarmaActivada(false);
+      authCtx.activarODesactivar();
       subscripcion && _unsubscribe();
       setEnteredPassword('');
     }
@@ -115,11 +114,11 @@ export default function Principal() {
       }
       <View style={styles.pressableContainer}>
         <Pressable
-          style={[styles.pressable, alarmaActivada ? styles.pressableSuccess : styles.pressableWarning]}
+          style={[styles.pressable, authCtx.activada ? styles.pressableSuccess : styles.pressableWarning]}
           onPress={onLogoPressHandler}
         >
         {
-          alarmaActivada ?
+          authCtx.activada ?
             <Image
               style={styles.imagen}
               source={require('../../assets/trusted.png')}
@@ -134,7 +133,7 @@ export default function Principal() {
         }
         </Pressable>
       {
-        alarmaActivada &&
+        authCtx.activada &&
         <View style={styles.inputContainer}>
           <Input
             label="Para desactivarla, ingrese su contraseña:"
