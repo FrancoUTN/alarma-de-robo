@@ -58,21 +58,23 @@ export default function Principal() {
   async function dispararAlarma(audio, flashea, vibra) {
     _unsubscribe();
 
-    const sound = new Audio.Sound();
-    await sound.loadAsync(
-      audio,
-      { isLooping: true }
-    );
+    if (authCtx.activada) {
+      const sound = new Audio.Sound();
+      await sound.loadAsync(
+        audio,
+        { isLooping: true }
+      );
 
-    flashea && setFlashActivo(true);
-    vibra && Vibration.vibrate(5000);
+      flashea && setFlashActivo(true);
+      vibra && Vibration.vibrate(5000);
 
-    setTimeout(() => {
-      sound.unloadAsync();
-      flashea && setFlashActivo(false);
-      _subscribe();
-    }, 5000);
-    await sound.playAsync();
+      setTimeout(() => {
+        sound.unloadAsync();
+        flashea && setFlashActivo(false);
+          _subscribe();
+      }, 5000);
+      await sound.playAsync();
+    }
   }
 
   const _subscribe = () => {
