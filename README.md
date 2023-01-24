@@ -8,6 +8,8 @@ Para desactivarla, simplemente se ingresa la contraseña de usuario y se apaga.
 
 ## :arrow_forward: Demo (con sonido :loud_sound:):
 
+:warning: **Atención:** el audio de los videos no se reproduce si estás viendo GitHub desde un celular.
+
 ### Login y activación de alarma:
 
 https://user-images.githubusercontent.com/52534851/214337769-e6048eb7-3a04-49d8-80e9-f9202a0b1bb6.mp4
