@@ -31,3 +31,9 @@ Chequeando el acelerómetro del dispositivo para vigilar su posición en todo mo
 :electron: React Native con Expo (especial uso de "expo-sensors", API que incluye el acelerómetro)
 
 :fire: Firebase (para los usuarios)
+<br/>
+<br/>
+
+## :arrow_down: Descargar
+
+#### Disponible en [Android (APK) :point_left:](https://expo.dev/accounts/cfrancodev/projects/alarma-de-robo/builds/3a962e82-4152-41fa-86e5-231de4662155)
